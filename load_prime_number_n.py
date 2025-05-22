@@ -26,8 +26,8 @@ def get_primes_upto_via_prime_division(n):
             primes.append(num)
     return primes
 
-def condition(pivotIndex, primes, num):
-    if all(num % primes[i] != 0 for i in range(pivotIndex)):
+def condition(primes, num):
+    if all(num % i != 0 for i in primes):
         return True
     return False
         
@@ -43,17 +43,42 @@ def findPrimeByOptimisedPivot(n):
     pivotIndex = 0
     for i in range(2, n+1):
         pivotIndex = findPivot(pivotIndex, i, primes)
-        if condition(pivotIndex, primes, i):
+        if condition(primes[:pivotIndex+1], i):
             primes.append(i)            
     return primes
+
+@timeit
+def fastestPrimeFinder(n):
+    primes = []
+    for i in range(2, n+1):
+        sqrtCeil = int(i**0.5)+1
+        for j in primes:
+            if j >= sqrtCeil:
+                break
+            if i % j == 0:
+                break
+        else:
+            primes.append(i)
+    return primes
         
+
 n = 7000
-findPrimeByOptimisedPivot(n)
-get_primes_upto_via_prime_division(n)
-get_primes_upto(n)
+a = findPrimeByOptimisedPivot(n)
+b = get_primes_upto_via_prime_division(n)
+c = get_primes_upto(n)
+d = fastestPrimeFinder(n)
+print(a == b == c == d)
 
 """
-Time taken by findPrimeByOptimisedPivot: 0.0031981468200683594
-Time taken by get_primes_upto_via_prime_division: 0.017104148864746094
-Time taken by get_primes_upto: 0.0032100677490234375
+python3 main.py
+Time taken by findPrimeByOptimisedPivot: 0.002351045608520508
+Time taken by get_primes_upto_via_prime_division: 0.01871013641357422
+Time taken by get_primes_upto: 0.003467082977294922
+Time taken by fastestPrimeFinder: 0.00115203857421875
+True
+python3 main.py
+Time taken by findPrimeByOptimisedPivot: 0.0033140182495117188
+Time taken by get_primes_upto_via_prime_division: 0.017297029495239258
+Time taken by get_primes_upto: 0.0031731128692626953
+Time taken by fastestPrimeFinder: 0.0010852813720703125
 """
