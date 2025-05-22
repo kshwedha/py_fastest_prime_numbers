@@ -5,9 +5,10 @@ def timeit(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         start = time.time()
-        func(*args, **kwargs)
+        result = func(*args, **kwargs)
         end = time.time()
         print(f"Time taken by {func.__name__}: {end - start}")
+        return result
     return wrapper  
 
 @timeit
@@ -53,7 +54,8 @@ def fastestPrimeFinder(n):
     for i in range(2, n+1):
         sqrtCeil = int(i**0.5)+1
         for j in primes:
-            if j >= sqrtCeil:
+            if j > sqrtCeil:
+                primes.append(i)
                 break
             if i % j == 0:
                 break
@@ -71,14 +73,27 @@ print(a == b == c == d)
 
 """
 python3 main.py
-Time taken by findPrimeByOptimisedPivot: 0.002351045608520508
-Time taken by get_primes_upto_via_prime_division: 0.01871013641357422
-Time taken by get_primes_upto: 0.003467082977294922
-Time taken by fastestPrimeFinder: 0.00115203857421875
+Time taken by findPrimeByOptimisedPivot: 0.0032072067260742188
+Time taken by get_primes_upto_via_prime_division: 0.016224145889282227
+Time taken by get_primes_upto: 0.003081083297729492
+Time taken by fastestPrimeFinder: 0.0016629695892333984
 True
 python3 main.py
-Time taken by findPrimeByOptimisedPivot: 0.0033140182495117188
-Time taken by get_primes_upto_via_prime_division: 0.017297029495239258
-Time taken by get_primes_upto: 0.0031731128692626953
-Time taken by fastestPrimeFinder: 0.0010852813720703125
+Time taken by findPrimeByOptimisedPivot: 0.0034978389739990234
+Time taken by get_primes_upto_via_prime_division: 0.017655134201049805
+Time taken by get_primes_upto: 0.0032188892364501953
+Time taken by fastestPrimeFinder: 0.0018360614776611328
+True
+python3 main.py
+Time taken by findPrimeByOptimisedPivot: 0.003381967544555664
+Time taken by get_primes_upto_via_prime_division: 0.01706695556640625
+Time taken by get_primes_upto: 0.003200054168701172
+Time taken by fastestPrimeFinder: 0.002048969268798828
+True
+python3 main.py
+Time taken by findPrimeByOptimisedPivot: 0.003593921661376953
+Time taken by get_primes_upto_via_prime_division: 0.017368078231811523
+Time taken by get_primes_upto: 0.003204822540283203
+Time taken by fastestPrimeFinder: 0.0017490386962890625
+True
 """
